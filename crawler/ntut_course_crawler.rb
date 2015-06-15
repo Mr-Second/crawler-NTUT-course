@@ -85,6 +85,8 @@ class NtutCourseCrawler
         code = CGI.parse(URI(url).query)["code"][0]
 
         @courses << {
+          year: @year,
+          term: @term,
           code: "#{@year}-#{@term}-#{code}",
           name: datas[1] && datas[1].text.strip,
           department: dep_n,
