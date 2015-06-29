@@ -1,7 +1,8 @@
+source "https://rubygems.org"
+
 gem 'nokogiri'
-gem 'capybara'
-gem 'selenium-webdriver'
 gem 'pry'
 
 gem 'iconv'
 gem 'crawler_rocks'
+gem 'web_task_runner'
