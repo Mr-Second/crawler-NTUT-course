@@ -56,7 +56,6 @@ class NtutCourseCrawler
 
         update_threads = []
 
-        print "#{dep_n}\n"
         r = RestClient.post @result_url, {
           "stime" => 0,
           "year" => @year-1911,
@@ -101,7 +100,8 @@ class NtutCourseCrawler
             term: @term,
             code: "#{@year}-#{@term}-#{code}",
             name: datas[1] && datas[1].text.strip,
-            department: dep_n,
+            department: datas[6] && datas[6].text.split("\n"),
+            course_department: dep_n,
             department_code: dep_c,
             # stage: datas[2] && datas[2].text.strip,
             credits: datas[3] && datas[3].text.to_i,
@@ -147,9 +147,19 @@ class NtutCourseCrawler
           @courses << course
         end
         ThreadsWait.all_waits(*update_threads)
+        print "#{dep_n}\n"
       end # end new theads
     end # end each deps
     ThreadsWait.all_waits(*@threads)
+
+    expanded_courses = []
+    @courses.each do |course|
+      expanded_courses.concat(course[:department].map{|dep|
+        course[:department] = dep
+        course
+      })
+    end
+
     @courses
   end # end courses method
 
